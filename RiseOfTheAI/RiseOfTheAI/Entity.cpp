@@ -192,18 +192,18 @@ void Entity::aiFloating(Entity player)
         break;
 
     case FLOATING:
-        if (position.y > 3.0f && position.x > 3.0f) {
-            velocity.y = -0.75f;
-            velocity.x = -1.0f;
-            acceleration = glm::vec3(-0.15f, -0.25f, 0);
-            std::cout << "1" << std::endl; //debugging
+        if (position.x > 3.0f) {
+            velocity.y = -0.7f;
+            velocity.x = -1.2f;
+            acceleration = glm::vec3(-0.5f, -0.25f, 0);
+            //std::cout << "1" << std::endl; //debugging
         }
-        else if (position.x < 0.5f && position.y < 3.0f) {
+        else if (position.y < 0.5f) {
             velocity.y = 0.75f;
             velocity.x = -1.0f;
             acceleration = glm::vec3(0.15f, 0.25f, 0);
         }
-        else if (position.x < -1.0f && position.y > 2.0f) {
+        else if (position.x < -3.0f) {
             velocity.y = -0.75f;
             velocity.x = 1.0f;
             acceleration = glm::vec3(0.15f, -0.25f, 0);
