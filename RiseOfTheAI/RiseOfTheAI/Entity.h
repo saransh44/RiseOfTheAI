@@ -13,7 +13,7 @@
 #include "ShaderProgram.h"
 
 enum EntityType { PLAYER, GOAL, TILE, ENEMY, MESSAGE, DEFAULT};
-enum moveState  { IDLE, WALKING, ATTACKING, JUMPING, FLOATING};
+enum moveState  { IDLE, SlideAttack, JUMPING, FLOATING};
 enum AIType {GOOMBA, GHOST, FROG};
 
 class Entity {
@@ -56,9 +56,9 @@ public:
     void Jump();
 
     void aiIdle(Entity player);
-    void aiWalking(Entity player);
-    void aiAttacking(Entity player);
-
+    void aiSlideAttack(Entity player);
+    void aiFloating(Entity player);
+ 
     void AI(Entity player);
 
     bool collidedTop = false;

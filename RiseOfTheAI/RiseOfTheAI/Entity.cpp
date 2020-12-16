@@ -56,7 +56,7 @@ void Entity::Update(float deltaTime, Entity player, Entity* objects, int objectC
 }
 
 //Very useful method but had to modify the implementation 
-//a bit that way its not just drawing things of a standard size at the center of the screen
+//a bit that way its not just rendering textures of a standard size at the center of the screen
 void Entity::Render(ShaderProgram* program, glm::vec3 sizing) {
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
@@ -156,41 +156,96 @@ void Entity::Jump()
 
 void Entity::aiIdle(Entity player)
 {
-
+    
 }
-void Entity::aiWalking(Entity player)
+
+void Entity::aiSlideAttack(Entity player)
 {
     switch (move) { //do something different depending on state!
     case IDLE:
-        if (glm::distance(position, player.position) < 3.0f) {
-            move = WALKING;
+        if (glm::distance(position, player.position) < 2.0f) {
+            move = SlideAttack;
         }
         break;
-    case WALKING:
+    case SlideAttack:
         if (player.position.x > position.x) {
-            velocity.x = 1.0f; //go right
+            velocity.x = 1.0f; 
         }
         if (player.position.x < position.x) {
-            velocity.x = -1.0f; //go left	
+            velocity.x = -1.0f; 
         }
         break;
     }
 }
-void Entity::aiAttacking(Entity player)
+void Entity::aiFloating(Entity player)
 {
+    switch (move) { //do something different depending on state!
+    case IDLE:
+        if (glm::distance(position, player.position) < 1.0f) {
+            move = FLOATING;
+        }
+        else
+        {
+            velocity.y = 0.0f;
+            velocity.x = 0.0f;
+        }
+        break;
 
+    case FLOATING:
+        if (position.y > 3.0f && position.x > 3.0f) {
+            velocity.y = -0.75f;
+            velocity.x = -1.0f;
+            acceleration = glm::vec3(-0.15f, -0.25f, 0);
+            std::cout << "1" << std::endl; //debugging
+        }
+        else if (position.x < 0.5f && position.y < 3.0f) {
+            velocity.y = 0.75f;
+            velocity.x = -1.0f;
+            acceleration = glm::vec3(0.15f, 0.25f, 0);
+        }
+        else if (position.x < -1.0f && position.y > 2.0f) {
+            velocity.y = -0.75f;
+            velocity.x = 1.0f;
+            acceleration = glm::vec3(0.15f, -0.25f, 0);
+
+        }
+        else
+        {
+            //velocity.y = -0.75f;
+            //velocity.x = -1.0f;
+            //acceleration = glm::vec3(-0.3f, -0.1f, 0);
+            //velocity.y = 0.0f;
+            //velocity.x = 0.0f;
+            //acceleration = glm::vec3(0.0f, 0.0f, 0);
+
+        }
+        break;
+
+        /*else
+        {
+            velocity.y = 1.0f;
+            velocity.x = -1.0f;
+        }*/
+        /*else if (position.x > -2.0f) {
+            //velocity.y = -1.0f;
+            //velocity.x = -0.5f;
+        }*/
+    }
 }
 
 //Handles the three basic AI behaviors
 void Entity::AI(Entity player) {
     switch (aiType) {
     case GOOMBA:
-        aiWalking(player);
+        aiSlideAttack(player);
         break;
+
     case GHOST:
+        aiFloating(player);
         break;
+
     case FROG:
         break;
     }
-
 }
+

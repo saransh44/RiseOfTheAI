@@ -145,7 +145,7 @@ void Initialize() {
 
     textured.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     textID = LoadTexture("font1.png");
-    tileID = LoadTexture("tile.png");
+    tileID = LoadTexture("SpecialAssets/BoundaryBlock.png");
     
     state.player.entityType = PLAYER;
     state.player.isStatic = false;
@@ -161,7 +161,8 @@ void Initialize() {
     state.AI[0].height = 0.5;
     state.AI[0].textureID = AIID1;
     state.AI[0].isStatic = false; //it moves!!
-    state.AI[0].acceleration = glm::vec3(0, -9.81f, 0);
+    state.AI[0].acceleration = glm::vec3(0, 0.0f, 0);
+    state.AI[0].velocity = glm::vec3(1.0f, 1.0f, 0.0f);
     state.AI[0].position = glm::vec3(1.0f, 1.0f, 0.0f);
     state.AI[0].move = FLOATING;
     state.AI[0].aiType = GHOST;
@@ -177,7 +178,7 @@ void Initialize() {
     state.AI[1].move = IDLE;
     state.AI[1].aiType = GOOMBA;
 
-    GLuint AIID3 = LoadTexture("frog.png");
+    GLuint AIID3 = LoadTexture("SpecialAssets/Pin Thing.png");
     state.AI[2].entityType = ENEMY;
     state.AI[2].width = 0.5;
     state.AI[2].height = 0.5;
@@ -317,7 +318,7 @@ void Initialize() {
 float lastTicks = 0;
 float accumulator = 0.0f;
 
-void Update() {9
+void Update() {
 
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
@@ -333,9 +334,7 @@ void Update() {9
         state.player.Update(FIXED_TIMESTEP, state.player, state.tiles, TILE_COUNT, state.AI, AI_COUNT);
         for (int i = 0; i < AI_COUNT; i++) {
             state.AI[i].Update(FIXED_TIMESTEP, state.player, state.tiles, TILE_COUNT, state.AI, AI_COUNT);
-            
         }
-
         deltaTime -= FIXED_TIMESTEP;
     }
 
