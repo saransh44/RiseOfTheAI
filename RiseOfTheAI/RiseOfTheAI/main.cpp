@@ -161,8 +161,8 @@ void Initialize() {
     state.AI[0].height = 0.5;
     state.AI[0].textureID = AIID1;
     state.AI[0].isStatic = false; //it moves!!
-    state.AI[0].acceleration = glm::vec3(0, 0.0f, 0);
-    state.AI[0].velocity = glm::vec3(1.0f, 1.0f, 0.0f);
+    state.AI[0].acceleration = glm::vec3(0.2f, 0.1f, 0);
+    state.AI[0].velocity = glm::vec3(0.1f, 0.1f, 0.0f);
     state.AI[0].position = glm::vec3(1.0f, 1.0f, 0.0f);
     state.AI[0].move = FLOATING;
     state.AI[0].aiType = GHOST;

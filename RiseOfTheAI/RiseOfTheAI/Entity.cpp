@@ -193,22 +193,32 @@ void Entity::aiFloating(Entity player)
 
     case FLOATING:
         if (position.x > 3.0f) {
-            velocity.y = -0.7f;
-            velocity.x = -1.2f;
-            acceleration = glm::vec3(-0.5f, -0.25f, 0);
+            velocity.y = -0.1f;
+            velocity.x = -0.1f;
+            acceleration = glm::vec3(-0.2f, -0.1f, 0);
             //std::cout << "1" << std::endl; //debugging
         }
-        else if (position.y < 0.5f) {
-            velocity.y = 0.75f;
-            velocity.x = -1.0f;
-            acceleration = glm::vec3(0.15f, 0.25f, 0);
+        //check which direction the velocity is when reaching the below 0.5 threshold
+        else if (position.y < 0.0f) {
+            if (velocity.x > 0.1f) {
+                velocity.y = 0.1f;
+                velocity.x = 0.1f;            
+                acceleration = glm::vec3(0.2f, 0.1f, 0);
+
+            }
+            else if (velocity.x < -0.1f) {
+                velocity.y = 0.1f;
+                velocity.x = -0.1f;
+                acceleration = glm::vec3(-0.2f, 0.1f, 0);
+
+            }
         }
         else if (position.x < -3.0f) {
-            velocity.y = -0.75f;
-            velocity.x = 1.0f;
-            acceleration = glm::vec3(0.15f, -0.25f, 0);
-
+            velocity.y = -0.1f;
+            velocity.x = 0.1f;
+            acceleration = glm::vec3(0.2f, -0.1f, 0);
         }
+
         else
         {
             //velocity.y = -0.75f;
@@ -233,7 +243,6 @@ void Entity::aiFloating(Entity player)
     }
 }
 
-//Handles the three basic AI behaviors
 void Entity::AI(Entity player) {
     switch (aiType) {
     case GOOMBA:
