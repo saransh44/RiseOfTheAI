@@ -168,9 +168,10 @@ void Entity::aiLeaping(Entity player)
 
     case JUMPING:
         if (position.y > -2.0) {
+            velocity.y = -velocity.y;
             velocity.x = -0.3f;
         }
-        else if (velocity.y < 0) {
+        /*else if (velocity.y < 0) {
             velocity.y = 1.0f;
             velocity.x = 0.3f;
         }

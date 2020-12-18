@@ -184,7 +184,7 @@ void Initialize() {
     state.AI[2].height = 0.5;
     state.AI[2].textureID = AIID3;
     state.AI[2].isStatic = false; //it moves!!
-    state.AI[2].acceleration = glm::vec3(0, -0.35f, 0);
+    state.AI[2].acceleration = glm::vec3(0, -0.2f, 0);
     state.AI[2].velocity = glm::vec3(0.3f, 1.0f, 0.0f);
     state.AI[2].position = glm::vec3(4.35f, -3.0f, 0);
     state.AI[2].move = JUMPING;
