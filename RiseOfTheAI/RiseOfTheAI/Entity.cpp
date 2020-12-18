@@ -117,7 +117,6 @@ void Entity::CheckCollisionsY(Entity* objects, int objectCount)
                 position.y += penetrationY;
                 velocity.y = 0;
                 collidedBottom = true;
-
             }
         }
     }
@@ -158,7 +157,34 @@ void Entity::aiIdle(Entity player)
 {
     
 }
+void Entity::aiLeaping(Entity player)
+{
+    switch (move) { //do something different depending on state!
+    case IDLE:
+        /*if (glm::distance(position, player.position) < 2.0f) {
+            move = JUMPING;
+        }*/
+        break;
 
+    case JUMPING:
+        if (position.y > -2.0) {
+            velocity.x = -0.3f;
+        }
+        else if (velocity.y < 0) {
+            velocity.y = 1.0f;
+            velocity.x = 0.3f;
+        }
+        /*else if (collidedLeft) {
+            velocity.y = 1.0f;
+            velocity.x = -0.3f;
+        }*/
+        /*else {
+            
+        }*/
+
+        break;
+    }
+}
 void Entity::aiSlideAttack(Entity player)
 {
     switch (move) { //do something different depending on state!
@@ -181,42 +207,47 @@ void Entity::aiFloating(Entity player)
 {
     switch (move) { //do something different depending on state!
     case IDLE:
-        if (glm::distance(position, player.position) < 1.0f) {
+        /*if (glm::distance(position, player.position) < 1.0f) {
             move = FLOATING;
         }
-        else
-        {
+        else {
             velocity.y = 0.0f;
             velocity.x = 0.0f;
-        }
+        }*/
         break;
 
     case FLOATING:
-        if (position.x > 3.0f) {
-            velocity.y = -0.1f;
-            velocity.x = -0.1f;
-            acceleration = glm::vec3(-0.2f, -0.1f, 0);
+        const float yVel = 0.4f;
+        const float xVel = 0.4f; 
+
+        const float xAccel = 0.4f;
+        const float yAccel = 0.2f;
+
+        if (position.x > 4.0f) {
+            velocity.y = -yVel;
+            velocity.x = -xVel;
+            acceleration = glm::vec3(-xAccel, -yAccel, 0);
             //std::cout << "1" << std::endl; //debugging
         }
-        //check which direction the velocity is when reaching the below 0.5 threshold
-        else if (position.y < 0.0f) {
-            if (velocity.x > 0.1f) {
-                velocity.y = 0.1f;
-                velocity.x = 0.1f;            
-                acceleration = glm::vec3(0.2f, 0.1f, 0);
+        //check which direction the velocity is when reaching the below a certain horizontal boundary threshold
+        else if (position.y < 0.6f) { 
+            if (velocity.x > 0.1f) { 
+                velocity.y = -velocity.y;
+                //velocity.x = 0.4f;       
+                acceleration = glm::vec3(xAccel, yAccel, 0);
 
             }
             else if (velocity.x < -0.1f) {
-                velocity.y = 0.1f;
-                velocity.x = -0.1f;
-                acceleration = glm::vec3(-0.2f, 0.1f, 0);
+                velocity.y = -velocity.y;
+                //velocity.x = -0.4f;
+                acceleration = glm::vec3(-xAccel, yAccel, 0);
 
             }
         }
-        else if (position.x < -3.0f) {
-            velocity.y = -0.1f;
-            velocity.x = 0.1f;
-            acceleration = glm::vec3(0.2f, -0.1f, 0);
+        else if (position.x < -3.4f) {
+            velocity.y = -yVel;
+            velocity.x = xVel;
+            acceleration = glm::vec3(xAccel, -yAccel, 0);
         }
 
         else
@@ -254,7 +285,7 @@ void Entity::AI(Entity player) {
         break;
 
     case FROG:
-        break;
+        aiLeaping(player);
     }
 }
 

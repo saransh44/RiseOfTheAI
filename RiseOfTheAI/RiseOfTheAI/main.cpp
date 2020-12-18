@@ -1,5 +1,5 @@
 #define GL_SILENCE_DEPRECATION //For silencing pesky notifications on Mac
-#define TILE_COUNT 69
+#define TILE_COUNT 72
 #define AI_COUNT 3
 
 #ifdef _WINDOWS
@@ -161,8 +161,8 @@ void Initialize() {
     state.AI[0].height = 0.5;
     state.AI[0].textureID = AIID1;
     state.AI[0].isStatic = false; //it moves!!
-    state.AI[0].acceleration = glm::vec3(0.2f, 0.1f, 0);
-    state.AI[0].velocity = glm::vec3(0.1f, 0.1f, 0.0f);
+    state.AI[0].acceleration = glm::vec3(0.4f, 0.2f, 0);
+    state.AI[0].velocity = glm::vec3(0.4f, 0.4f, 0.0f);
     state.AI[0].position = glm::vec3(1.0f, 1.0f, 0.0f);
     state.AI[0].move = FLOATING;
     state.AI[0].aiType = GHOST;
@@ -178,13 +178,14 @@ void Initialize() {
     state.AI[1].move = IDLE;
     state.AI[1].aiType = GOOMBA;
 
-    GLuint AIID3 = LoadTexture("SpecialAssets/Pin Thing.png");
+    GLuint AIID3 = LoadTexture("Frog.png");
     state.AI[2].entityType = ENEMY;
     state.AI[2].width = 0.5;
     state.AI[2].height = 0.5;
     state.AI[2].textureID = AIID3;
     state.AI[2].isStatic = false; //it moves!!
-    state.AI[2].acceleration = glm::vec3(0, -9.81f, 0);
+    state.AI[2].acceleration = glm::vec3(0, -0.35f, 0);
+    state.AI[2].velocity = glm::vec3(0.3f, 1.0f, 0.0f);
     state.AI[2].position = glm::vec3(4.35f, -3.0f, 0);
     state.AI[2].move = JUMPING;
     state.AI[2].aiType = FROG;
@@ -216,11 +217,11 @@ void Initialize() {
     }
     cout << borderTileCount << endl; //debugging
     
-    for (rightBorder = -1.5f; rightBorder < 3.2; rightBorder += .5) {
+    for (rightBorder = -2.5f; rightBorder < 3.7; rightBorder += .5) {
         borderTileCount++;
 
         state.tiles[borderTileCount].textureID = tileID;
-        state.tiles[borderTileCount].position = glm::vec3(4.75f, rightBorder, 0);
+        state.tiles[borderTileCount].position = glm::vec3(5.1f, rightBorder, 0);
         state.tiles[borderTileCount].entityType = TILE;
     }
 
@@ -248,42 +249,42 @@ void Initialize() {
     }
     cout << borderTileCount << endl; //debugging
 
-    state.tiles[61].textureID = tileID;
-    state.tiles[61].position = glm::vec3(1.0f, 0.0f, 0);
-    state.tiles[61].entityType = TILE;
-
-    state.tiles[62].textureID = tileID;
-    state.tiles[62].position = glm::vec3(1.5f, 0.0f, 0);
-    state.tiles[62].entityType = TILE;
-
-    state.tiles[63].textureID = tileID;
-    state.tiles[63].position = glm::vec3(2.75f, 1.0f, 0);
-    state.tiles[63].entityType = TILE;
-
-    //begin mini border slightly left of center
     state.tiles[64].textureID = tileID;
-    state.tiles[64].position = glm::vec3(-0.5f, -0.5f, 0);
+    state.tiles[64].position = glm::vec3(1.0f, 0.0f, 0);
     state.tiles[64].entityType = TILE;
 
     state.tiles[65].textureID = tileID;
-    state.tiles[65].position = glm::vec3(-0.5f, -1.0f, 0);
+    state.tiles[65].position = glm::vec3(1.5f, 0.0f, 0);
     state.tiles[65].entityType = TILE;
+
+    state.tiles[66].textureID = tileID;
+    state.tiles[66].position = glm::vec3(2.75f, 1.0f, 0);
+    state.tiles[66].entityType = TILE;
+
+    //begin mini border slightly left of center
+    state.tiles[67].textureID = tileID;
+    state.tiles[67].position = glm::vec3(-0.5f, -0.5f, 0);
+    state.tiles[67].entityType = TILE;
+
+    state.tiles[68].textureID = tileID;
+    state.tiles[68].position = glm::vec3(-0.5f, -1.0f, 0);
+    state.tiles[68].entityType = TILE;
     //end mini border slightly left of center
 
     //begin mini border slightly left of center
-    state.tiles[66].textureID = tileID;
-    state.tiles[66].position = glm::vec3(-2.0f, -0.5f, 0);
-    state.tiles[66].entityType = TILE;
+    state.tiles[69].textureID = tileID;
+    state.tiles[69].position = glm::vec3(-2.0f, -0.5f, 0);
+    state.tiles[69].entityType = TILE;
 
-    state.tiles[67].textureID = tileID;
-    state.tiles[67].position = glm::vec3(-2.0f, -1.0f, 0);
-    state.tiles[67].entityType = TILE;
+    state.tiles[70].textureID = tileID;
+    state.tiles[70].position = glm::vec3(-2.0f, -1.0f, 0);
+    state.tiles[70].entityType = TILE;
 
     //end mini border slightly left of center
 
-    state.tiles[68].textureID = tileID;
-    state.tiles[68].position = glm::vec3(3.85f, -3.0f, 0);
-    state.tiles[68].entityType = TILE;
+    state.tiles[71].textureID = tileID;
+    state.tiles[71].position = glm::vec3(3.85f, -3.0f, 0);
+    state.tiles[71].entityType = TILE;
 
     /*state.tiles[65].textureID = tileID;
     state.tiles[65].position = glm::vec3(2.4, 1.8, 0);
@@ -343,7 +344,6 @@ void Update() {
 
 
 glm::vec3 tileSizing = glm::vec3(0.5f, 0.5f, 0.0f);
-glm::vec3 pokeballSizing = glm::vec3(1.0f, 1.0f, 0.0f);
 glm::vec3 pikSizing = glm::vec3(0.5f, 0.5f, 0.0f);
 
 void Render() {

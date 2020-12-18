@@ -17,7 +17,9 @@ enum moveState  { IDLE, SlideAttack, JUMPING, FLOATING};
 enum AIType {GOOMBA, GHOST, FROG};
 
 class Entity {
+
 public:
+
     EntityType entityType;
     moveState move;
     AIType aiType;
@@ -55,9 +57,19 @@ public:
 
     void Jump();
 
+    //This is a slightly implemetation set up in Entity.cpp for all these movements
+    //By design I don't want Idle for example to mean different things to 
+    //different objects so generally those implementation cases are the same.
+    //Just for future proofing I like making new move names for even things like a 
+    //sliding motion upwards and downwards and one for side to side
+    //I remember Sterling spoke slightly on future proofing and thinking of behaviors of objects 
+    //In case I need to something with that sliding motion that concept in code especially in the 
+    //implementation .Cpp file, well I can now have assurances just incase there needs to be furter 
+    //distinction between AI's but also makes me more aware of edits even if movements are similar between AI.
     void aiIdle(Entity player);
     void aiSlideAttack(Entity player);
     void aiFloating(Entity player);
+    void aiLeaping(Entity player);
  
     void AI(Entity player);
 
