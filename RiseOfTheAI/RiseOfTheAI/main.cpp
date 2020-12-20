@@ -1,4 +1,4 @@
-#define GL_SILENCE_DEPRECATION //For silencing pesky notifications on Mac
+#define GL_SILENCE_DEPRECATION //For silencing notifications on Mac for other users
 #define TILE_COUNT 72
 #define AI_COUNT 3
 
@@ -199,7 +199,7 @@ void Initialize() {
     }
     cout << borderTileCount << endl; //debugging
 
-    for (leftBorder = -3; leftBorder < 4.6; leftBorder+= 2) {
+    for (leftBorder = -2.5; leftBorder < 5.1; leftBorder+= 2) {
         borderTileCount++;
 
         state.tiles[borderTileCount].textureID = tileID;
@@ -320,7 +320,7 @@ float lastTicks = 0;
 float accumulator = 0.0f;
 
 void Update() {
-
+    if (state.player.enemiesLeft == 0 || state.player.isStatic) return;
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
     lastTicks = ticks;
@@ -357,9 +357,16 @@ void Render() {
 
     for (int i = 0; i < AI_COUNT; i++)
     {
-        state.AI[i].Render(&textured, tileSizing);
+        if (state.AI[i].isActive  == true)
+            state.AI[i].Render(&textured, tileSizing);
     }
     
+    if (state.player.enemiesLeft == 0) 
+        DrawText(&textured, textID, "Mission Successful!", 0.75, -0.5, glm::vec3(-1.5, 0, 0));
+
+    if (state.player.isStatic)
+        DrawText(&textured, textID, "Mission Failed!", 0.75, -0.5, glm::vec3(-1.0, 0, 0));
+
     SDL_GL_SwapWindow(displayWindow);
 }
 
@@ -374,14 +381,6 @@ void ProcessInput() {
 
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
-            /*case SDLK_RIGHT:
-                state.player.velocity.x = 3.0f;
-
-                break;
-            case SDLK_LEFT:
-                state.player.velocity.x = -3.0f;
-
-                break;*/
             
             case SDLK_SPACE:
                 state.player.Jump();
@@ -393,7 +392,6 @@ void ProcessInput() {
     }
 
     state.player.velocity.x = 0;
-
 
     // Check for pressed/held keys below; emphasis on held and why my left and right arrow key code is here and commented up above
     const Uint8* keys = SDL_GetKeyboardState(NULL);

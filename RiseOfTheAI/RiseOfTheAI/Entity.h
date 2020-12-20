@@ -21,8 +21,24 @@ class Entity {
 public:
 
     EntityType entityType;
+
+    //EntityType otherEntityTypeInteraction; //Unneccessary 
     moveState move;
     AIType aiType;
+
+    int enemiesLeft = 3;
+
+    int* animRight = NULL;
+    int* animLeft = NULL;
+    int* animUp = NULL;
+    int* animDown = NULL;
+
+    int* animIndices = NULL;
+    int animFrames = 0;
+    int animIndex = 0;
+    float animTime = 0;
+    int animCols = 0;
+    int animRows = 0;
 
     GLuint textureID;
 
@@ -41,19 +57,19 @@ public:
     glm::vec3 velocity;
     glm::vec3 acceleration;
     glm::vec3 custSizing;
+    glm::vec3 movement;
 
     Entity();
     Entity(EntityType type);
 
-    bool CheckCollision(Entity other);
+    bool CheckCollision(Entity* other);
 
     void CheckCollisionsY(Entity* objects, int objectCount);
     void CheckCollisionsX(Entity* objects, int objectCount);
-
-    //void UpdatePos(const float incrementX, const float incrementY);
     
     void Update(float deltaTime, Entity player, Entity* objects, int objectCount, Entity* enemies, int enemyCount);
     void Render(ShaderProgram* program, glm::vec3 sizing);
+    void DrawSpriteFromTextureAtlas(ShaderProgram* program, GLuint textureID, int index);
 
     void Jump();
 
